@@ -1,0 +1,29 @@
+@import url("https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&f[]=gambarino@400&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  font-family: "Satoshi", sans-serif;
+}
+
+
+button[name="previous-month"]{
+  background-color: black !important;
+}
+
+.rdp-head th{
+  font-size: 15px;
+  font-weight: bold;
+
+}
+
+#react-day-picker-2{
+  font-size: 25px;
+  padding-block: 1rem;
+}
+.rdp-button_reset{
+  font-size: 20px;
+  padding: 1em;
+  font-weight: medium;
+}

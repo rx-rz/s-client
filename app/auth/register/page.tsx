@@ -11,6 +11,7 @@ import { useRegister } from "../core/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/ui/logo";
+import Link from "next/link";
 
 const RegisterPage = () => {
   const { registerForm, submitRegistrationDetails } = useRegister();
@@ -137,6 +138,15 @@ const RegisterPage = () => {
           <Button className="w-full mt-10" type="submit">
             Register
           </Button>
+          <p className="text-center mt-5">
+            Already have an account?{" "}
+            <Link
+              className="text-accent_one underline underline-offset-4"
+              href={"/auth/login"}
+            >
+              Login.
+            </Link>
+          </p>
         </form>
       </Form>
     </div>

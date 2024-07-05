@@ -11,6 +11,7 @@ import { useLogin } from "../core/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/ui/logo";
+import Link from "next/link";
 
 const LoginPage = () => {
   const { loginForm, submitLoginDetails } = useLogin();
@@ -21,7 +22,7 @@ const LoginPage = () => {
           onSubmit={loginForm.handleSubmit(submitLoginDetails)}
           className="py-10 max-w-md mx-auto font-satoshi"
         >
-          <Logo className="mx-auto mb-10"/>
+          <Logo className="mx-auto mb-10" />
           <FormField
             control={loginForm.control}
             name="email"
@@ -55,6 +56,15 @@ const LoginPage = () => {
           <Button className="w-full mt-10" type="submit">
             Login
           </Button>
+          <p className="text-center mt-5">
+            Do not have an account?{" "}
+            <Link
+              className="text-accent_one underline underline-offset-4"
+              href={"/auth/register"}
+            >
+              Register.
+            </Link>
+          </p>
         </form>
       </Form>
     </div>

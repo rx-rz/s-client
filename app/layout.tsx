@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   applicationName: "Bliss Hotel",
   keywords: ["Bliss Hotel", "Accomodation", "Hotel", "Hospitality"],
   authors: [{ name: "Adeleye Temiloluwa" }],
-  creator: "Adeleye Temiloluwa"
+  creator: "Adeleye Temiloluwa",
 };
 
 export default function RootLayout({
@@ -22,8 +22,9 @@ export default function RootLayout({
       <body className="overflow-x-clip">
         <Navbar />
 
-        <main className="mx-auto">{children}</main>
-        <Toaster />
+        <main className="mx-auto">
+          {children} <Toaster />
+        </main>
       </body>
     </html>
   );

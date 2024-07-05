@@ -15,10 +15,7 @@ import {
   CreateBookingRequest,
   CreateBookingResponse,
 } from "@/types/booking.types";
-// import { APIError } from "@/types";
 import { useRouter } from "next/navigation";
-import { APIError, handleAPIErrors } from "@/lib/handle-api-errors";
-// import { handleAPIErrors } from "@/lib/handle-api-errors";
 
 export const getAvailableRooms = () => {
   const fetcher = (url: string): Promise<GetAvailableRoomsResponse> => {
@@ -74,13 +71,7 @@ export const handleBookingFlow = () => {
     data: registerCustomerResponse,
   } = useSWRMutation(
     createRoute({ prefix: "customers", route: "/registerCustomer" }),
-    registerCustomerRequest,
-
-    {
-      onSuccess: (data) => {
-        console.log({ data });
-      },
-    }
+    registerCustomerRequest
   );
 
   const createBookingRequest = async (
@@ -91,9 +82,7 @@ export const handleBookingFlow = () => {
       const response = await api.post(url, arg);
       return response.data;
     } catch (err) {
-      console.log(err);
       throw err;
-      // throw new APIError(error.statusCode, error.error, error.error_type);
     }
   };
 
@@ -112,6 +101,7 @@ export const handleBookingFlow = () => {
       },
     }
   );
+  
   return {
     registerCustomer,
     registerCustomerError,

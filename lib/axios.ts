@@ -1,6 +1,5 @@
-import { toast } from "@/components/ui/use-toast";
-import { APIError } from "@/types";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
+import { APIError } from "./handle-api-errors";
 export const api = axios.create({
   baseURL:
     typeof window === "undefined"
@@ -15,23 +14,20 @@ api.interceptors.response.use(
     return resp.data;
   },
   (error) => {
-    console.log(error);
-    let apiError: APIError;
-
+    let apiError;
     if (axios.isAxiosError(error)) {
-      apiError = {
-        statusCode: error.response?.status.toString() || "",
-        error: error.response?.data?.error || error.message,
-        error_type: error.response?.data?.error_type || "AXIOS_ERROR",
-      };
+      apiError = new APIError(
+        Number(error.response?.status.toString() || ""),
+        error.response?.data?.error || error.message,
+        error.response?.data?.error_type || "Internal Server Error"
+      );
     } else {
-      apiError = {
-        statusCode: "500",
-        error: error.message || "Unknown error occurred",
-        error_type: "UNKNOWN_ERROR",
-      };
+      apiError = new APIError(
+        500,
+        error.message || "Unknown error occured",
+        "Internal Server Error"
+      );
     }
-
     return Promise.reject(apiError);
   }
 );

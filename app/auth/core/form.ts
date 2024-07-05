@@ -1,6 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import z from "zod";
+import { registerAccount } from "./actions";
+import { useToast } from "@/components/ui/use-toast";
+import { APIError } from "@/lib/handle-api-errors";
 
 const loginSchema = z.object({
   email: z.coerce.string().email({ message: "Invalid email provided" }),
@@ -53,7 +56,7 @@ export const useSetPassword = () => {
   return { setPasswordForm, setPasswordForAccount };
 };
 
-const registerSchema = z
+export const registerSchema = z
   .object({
     firstName: z
       .string({
@@ -84,6 +87,7 @@ const registerSchema = z
   });
 
 export const useRegister = () => {
+  const { toast } = useToast();
   const registerForm = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -98,10 +102,16 @@ export const useRegister = () => {
     },
   });
 
-  const submitRegistrationDetails = (
+  const submitRegistrationDetails = async (
     values: z.infer<typeof registerSchema>
   ) => {
-    console.log({values})
+    const { confirmPassword, ...formData } = values;
+    const { error } = await registerAccount(formData);
+    toast({
+      title: error?.error,
+      description: error?.error_type,
+      variant: "destructive",
+    });
   };
 
   return { registerForm, submitRegistrationDetails };

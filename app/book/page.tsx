@@ -5,6 +5,7 @@ import { DateRange } from "react-day-picker";
 import { BookingCalendar } from "./_components/booking-calendar";
 import { AvailableRooms } from "./_components/available-rooms";
 import { useSearchParams } from "next/navigation";
+
 const BookingPage = () => {
   const [range, setRange] = useState<DateRange | undefined>({
     from: new Date(),

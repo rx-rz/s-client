@@ -16,7 +16,8 @@ import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
-import { ErrorAlert } from "@/components/error-alert";
+
+
 
 const SubmitBookingDetailsPage = () => {
   const { searchParams } = manageSearchParams();

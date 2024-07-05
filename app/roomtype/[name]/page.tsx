@@ -4,8 +4,19 @@ import {
   GetRoomTypeDetailsResponse,
   GetRoomTypesResponse,
 } from "@/types/roomtype.types";
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+
+export async function generateMetadata({
+  params: { name },
+}: {
+  params: { name: string };
+}): Promise<Metadata> {
+  return {
+    title: `Bliss Hotel: ${decodeURIComponent(name)}`,
+  };
+}
 
 const Page = async ({ params: { name } }: { params: { name: string } }) => {
   const { roomTypeDetails }: GetRoomTypeDetailsResponse = await api.get(
@@ -20,7 +31,7 @@ const Page = async ({ params: { name } }: { params: { name: string } }) => {
     <main className="flex font-satoshi tracking-tight gap-8 w-10/12 mx-auto">
       <div className="mt-1 sticky top-24 h-[70vh]">
         <h2 className="text-4xl font-medium">{roomTypeDetails.name}</h2>
-        <p className=" my-3 font-medium opacity-80">
+        <p className=" my-3 font-medium max-w-3xl opacity-80">
           {roomTypeDetails.description}
         </p>
 
@@ -41,7 +52,7 @@ const Page = async ({ params: { name } }: { params: { name: string } }) => {
           Book this room
         </Link>
       </div>
-      <div className="grid grid-cols-2 mb-20 gap-3">
+      <div className="grid grid-cols-1 mb-20 gap-3">
         <Image
           className="w-full h-full"
           src={"/details-three.jpeg"}

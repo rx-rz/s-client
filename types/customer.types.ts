@@ -15,12 +15,12 @@ export type Customer = {
 export type RegisterCustomerRequest = {
   firstName: string;
   lastName: string;
+  registrationIsOnTheBookingPage?: boolean;
   zip: string;
   address: string;
   phoneNo: string;
   email: string;
   password?: string | undefined;
-  refreshToken: string;
 };
 
 export type Search = {
@@ -65,6 +65,7 @@ export type UpdateCustomerEmailRequest = {
 export type RegisterCustomerResponse = {
   message: string;
   isSuccess: boolean;
+  customerIsNew?: boolean;
 };
 
 export type LoginCustomerResponse = {

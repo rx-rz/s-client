@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/navbar";
-
-const inter = Inter({ subsets: ["latin"] });
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,7 +17,9 @@ export default function RootLayout({
     <html lang="en">
       <body className="overflow-x-clip">
         <Navbar />
-        <main className="w-10/12 mx-auto">{children}</main>
+
+        <main className="mx-auto">{children}</main>
+        <Toaster />
       </body>
     </html>
   );

@@ -27,13 +27,17 @@ const config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        marquee: {
+          from: { transform: "translateX(100%)" },
+          to: { transform: "translateX(-100%)" },
+        },
       },
       colors: {
         accent_one: "#2e405c",
         accent_two: "#7c603d",
       },
       cursor: {
-        custom: 'url(https://placehold.co/400), pointer',
+        custom: "url(https://placehold.co/400), pointer",
       },
       fontFamily: {
         satoshi: ["Satoshi", "sans-serif"],

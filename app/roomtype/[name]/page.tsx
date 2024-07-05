@@ -17,21 +17,27 @@ const Page = async ({ params: { name } }: { params: { name: string } }) => {
   );
 
   return (
-    <main className="flex font-satoshi gap-8">
+    <main className="flex font-satoshi tracking-tight gap-8 w-10/12 mx-auto">
       <div className="mt-1 sticky top-24 h-[70vh]">
-        <h2 className="text-6xl font-medium">{roomTypeDetails.name}</h2>
-        <p className="text-xl my-3 font-medium opacity-80">
+        <h2 className="text-4xl font-medium">{roomTypeDetails.name}</h2>
+        <p className=" my-3 font-medium opacity-80">
           {roomTypeDetails.description}
         </p>
-        <p className="text-accent_two text-4xl font-bold">${roomTypeDetails.price}</p>
-        <ul className="mt-4 mb-6">
+
+        <ul className="mt-8 mb-6 list-disc">
           {roomTypeDetails.features?.map((feature) => (
-            <li key={feature} className="mb-1 pb-1">
+            <li key={feature} className=" mb-1 pb-1">
               {feature}
             </li>
           ))}
         </ul>
-        <Link className="underline underline-offset-4 text-xl" href={"#"}>
+        <p className="text-accent_two text-4xl font-bold">
+          ${roomTypeDetails.price}
+        </p>
+        <Link
+          className="underline underline-offset-4 text-xl"
+          href={`/book?roomType=${roomTypeDetails.name}`}
+        >
           Book this room
         </Link>
       </div>

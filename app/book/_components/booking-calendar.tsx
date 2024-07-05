@@ -1,4 +1,3 @@
-
 import { Calendar } from "@/components/ui/calendar";
 import { Dispatch, SetStateAction, useEffect } from "react";
 import { DateRange } from "react-day-picker";
@@ -17,7 +16,7 @@ export const BookingCalendar = ({ range, setRange, handleDayClick }: Props) => {
       selected={range}
       onDayClick={handleDayClick}
       onSelect={setRange}
-      disabled={{ before: date }}
+      disabled={{ before: new Date(date.setHours(date.getHours() + 1)) }}
     />
   );
 };

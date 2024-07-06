@@ -13,7 +13,6 @@ export const AvailableRooms = ({ range, roomTypeSelected }: Props) => {
   const availableRoomBasedOnSelectedRoomType =
     roomTypeSelected &&
     data?.availableRooms.find((room) => room.name === roomTypeSelected);
-  console.log({ availableRoomBasedOnSelectedRoomType });
   return (
     <div className="mt-20">
       {!availableRoomBasedOnSelectedRoomType &&

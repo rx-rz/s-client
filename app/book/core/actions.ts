@@ -8,6 +8,10 @@ import {
 import { customerDetailsSchema } from "./form";
 import { z } from "zod";
 import { RegisterCustomerResponse } from "@/types/customer.types";
+import {
+  CreatePaymentRequest,
+  CreatePaymentResponse,
+} from "@/types/payment.types";
 
 export const createBooking = async (values: CreateBookingRequest) => {
   let error;
@@ -43,7 +47,6 @@ export const registerAccountForBooking = async (
       { ...values, registrationIsOnTheBookingPage: true }
     );
   } catch (err) {
-    console.log(err);
     if (err instanceof APIError) {
       error = err;
     }

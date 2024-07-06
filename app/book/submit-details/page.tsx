@@ -30,6 +30,7 @@ const SubmitBookingDetailsPage = () => {
   const { form, submitBookingDetails, submitBookingDetailsLoading } =
     useMakeBooking({
       amount: Number(bookedRoom?.price) * totalNoOfDays,
+      paymentCallbackUrl: "http://localhost:3000",
     });
   return (
     <div>

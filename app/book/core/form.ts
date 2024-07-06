@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { registerAccountForBooking, createBooking } from "./actions";
 import { useToast } from "@/components/ui/use-toast";
 import { useState } from "react";
+import { APIError } from "@/types";
 
 export const customerDetailsSchema = z.object({
   firstName: z
@@ -29,8 +30,9 @@ export const customerDetailsSchema = z.object({
 
 type Props = {
   amount: number;
+  paymentCallbackUrl: string;
 };
-export const useMakeBooking = ({ amount }: Props) => {
+export const useMakeBooking = ({ amount, paymentCallbackUrl }: Props) => {
   const searchParams = useSearchParams();
   const { toast } = useToast();
   const router = useRouter();
@@ -52,39 +54,33 @@ export const useMakeBooking = ({ amount }: Props) => {
     values: z.infer<typeof customerDetailsSchema>
   ) => {
     setSubmitBookingDetailsLoading(true);
-    const { error, response } = await registerAccountForBooking(values);
-    if (error) {
+
+    const handleError = (error: APIError) => {
       setSubmitBookingDetailsLoading(false);
-      toast({
-        title: error?.error,
-        variant: "destructive",
-      });
-    }
-    if (response?.isSuccess) {
-      const { error, response } = await createBooking({
+      toast({ title: error.error, variant: "destructive" });
+    };
+
+    const { error: regError, response: regResponse } =
+      await registerAccountForBooking(values);
+    if (regError) return handleError(regError);
+
+    if (regResponse?.isSuccess) {
+      const { error: bookError, response: bookResponse } = await createBooking({
         customerEmail: values.email,
         startDate: searchParams.get("startDate") || "",
         endDate: searchParams.get("endDate") || "",
         amount: amount.toString(),
         roomNo: Number(searchParams.get("roomNo")) || 0,
+        paymentCallbackUrl,
       });
-      if (error) {
-        setSubmitBookingDetailsLoading(false);
-        toast({
-          title: error?.error,
-          variant: "destructive",
-        });
-      }
-      if (response?.isSuccess) {
-        toast({
-          title: "Booking made. Please proceed to payment.",
-          variant: "default",
-        });
-        router.push(response.paymentUrl);
+      if (bookError) return handleError(bookError);
+      if (bookResponse?.isSuccess) {
+        router.push(bookResponse.paymentUrl);
       }
     }
     setSubmitBookingDetailsLoading(false);
   };
+
   return {
     form,
     submitBookingDetails,

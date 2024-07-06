@@ -14,6 +14,7 @@ export type CreateBookingRequest = {
   startDate: string;
   endDate: string;
   customerEmail: string;
+  paymentCallbackUrl: string;
   amount: string;
 };
 
@@ -39,6 +40,7 @@ export type ListBookingRequest = {
 
 export type CreateBookingResponse = {
   bookingCreated: Booking;
+  paymentReference: string;
   paymentUrl: string;
   isSuccess: boolean;
 };

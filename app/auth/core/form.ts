@@ -1,9 +1,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import z from "zod";
-import { registerAccount } from "./actions";
+import { registerAccount, sendOTP, verifyOTP } from "./actions";
 import { useToast } from "@/components/ui/use-toast";
-import { APIError } from "@/lib/handle-api-errors";
+import { useRouter } from "next/navigation";
+import { SendOTPRequest, VerifyOTPRequest } from "@/types/otp.types";
+import { APIError } from "@/types";
+import { useState } from "react";
 
 const loginSchema = z.object({
   email: z.coerce.string().email({ message: "Invalid email provided" }),
@@ -88,6 +91,7 @@ export const registerSchema = z
 
 export const useRegister = () => {
   const { toast } = useToast();
+  const router = useRouter();
   const registerForm = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -101,18 +105,74 @@ export const useRegister = () => {
       zip: "",
     },
   });
-
   const submitRegistrationDetails = async (
     values: z.infer<typeof registerSchema>
   ) => {
     const { confirmPassword, ...formData } = values;
-    const { error } = await registerAccount(formData);
+    const { error, response } = await registerAccount(formData);
     toast({
       title: error?.error,
       description: error?.error_type,
       variant: "destructive",
     });
+    if (response?.isSuccess) {
+      sessionStorage.setItem("email-for-otp", values.email);
+      router.push("/auth/verify-otp");
+    }
   };
 
   return { registerForm, submitRegistrationDetails };
+};
+
+export const useSendAndVerifyOTP = () => {
+  const { toast } = useToast();
+  const router = useRouter();
+  const [verifyOTPIsLoading, setVerifyOTPIsLoading] = useState(false);
+  let otp: number;
+  let otpError: any;
+  const getOTPRequest = async (values: SendOTPRequest) => {
+    const { error, response } = await sendOTP(values);
+    if (error) {
+      toast({
+        title: error?.error,
+        description: error?.error_type,
+        variant: "destructive",
+      });
+    }
+    if (response?.isSuccess) {
+      otp = response.otpDetails.otp;
+      toast({
+        title: "OTP sent",
+        description: "OTP sent to your email",
+        variant: "default",
+      });
+    }
+  };
+
+  const verifyOTPRequest = async (otp: number) => {
+    setVerifyOTPIsLoading(true);
+    const { error, response } = await verifyOTP({
+      otp,
+      email: sessionStorage.getItem("email-for-otp") as string,
+    });
+    if (error) {
+      otpError = error;
+      toast({
+        title: error?.error,
+        description: error?.error_type,
+        variant: "destructive",
+      });
+    }
+    if (response?.isSuccess) {
+      toast({
+        title: "OTP verified",
+        description: "OTP verified successfully",
+        variant: "default",
+      });
+      router.push("/auth/login");
+    }
+    setVerifyOTPIsLoading(false);
+  };
+
+  return { getOTPRequest, verifyOTPRequest, otpError, verifyOTPIsLoading };
 };

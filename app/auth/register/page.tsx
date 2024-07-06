@@ -12,18 +12,11 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/ui/logo";
 import Link from "next/link";
-import { useToast } from "@/components/ui/use-toast";
 
 const RegisterPage = () => {
   const { registerForm, submitRegistrationDetails } = useRegister();
-  const { toast } = useToast();
   return (
     <div className="mt-8">
-      <button onClick={() => {
-        toast({
-          title: "Yo!"
-        })
-      }}>A</button>
       <Form {...registerForm}>
         <form
           onSubmit={registerForm.handleSubmit(submitRegistrationDetails)}

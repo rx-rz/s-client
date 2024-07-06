@@ -1,5 +1,5 @@
-import { CounterClockwiseClockIcon } from "@radix-ui/react-icons"
+import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 
 export const Spinner = () => {
-  return <CounterClockwiseClockIcon className="animate-spin"/>
-}
+  return <DotsHorizontalIcon className="animate-bounce" />;
+};

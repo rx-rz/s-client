@@ -17,8 +17,6 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 
-
-
 const SubmitBookingDetailsPage = () => {
   const { searchParams } = manageSearchParams();
   const { data } = getAvailableRooms();
@@ -29,24 +27,12 @@ const SubmitBookingDetailsPage = () => {
     startDate: searchParams.get("startDate") || "",
     endDate: searchParams.get("endDate") || "",
   });
-  const {
-    form,
-    submitDetails,
-    createBookingError,
-    createBookingLoading,
-    createBookingResponse,
-    registerCustomerError,
-    registerCustomerLoading,
-    registerCustomerResponse,
-  } = useMakeBooking({
-    amount: Number(bookedRoom?.price) * totalNoOfDays,
-  });
+  const { form, submitDetails, createBookingLoading, registerCustomerLoading } =
+    useMakeBooking({
+      amount: Number(bookedRoom?.price) * totalNoOfDays,
+    });
   return (
     <div>
-      <p className="text-4xl">
-        {/* {registerCustomerResponse?.customerIsNew ? "true" : "false"} */}
-      </p>
-      <p>{createBookingError?.error}</p>
       <p className="text-4xl font-medium my-8">You are almost done!</p>
       <div className="flex mt-4 justify-between">
         <div className="w-[48%]">
@@ -182,7 +168,11 @@ const SubmitBookingDetailsPage = () => {
                 </div>
               </Alert>
               <Button className="mt-8 w-full p-1" type="submit">
-                {createBookingLoading ? <Spinner /> : "Make booking"}
+                {createBookingLoading || registerCustomerLoading ? (
+                  <Spinner />
+                ) : (
+                  "Make booking"
+                )}
               </Button>
             </form>
           </Form>

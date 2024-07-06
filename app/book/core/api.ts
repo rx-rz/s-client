@@ -64,6 +64,7 @@ export const handleBookingFlow = () => {
     }
   };
 
+
   const {
     trigger: registerCustomer,
     error: registerCustomerError,
@@ -104,12 +105,12 @@ export const handleBookingFlow = () => {
   
   return {
     registerCustomer,
-    registerCustomerError,
     registerCustomerLoading,
+    registerCustomerError,
     registerCustomerResponse,
     createBooking,
-    createBookingError,
     createBookingLoading,
+    createBookingError,
     createBookingResponse,
   };
 };

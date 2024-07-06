@@ -1,12 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import z from "zod";
-import { registerAccount, sendOTP, verifyOTP } from "./actions";
+import { loginAccount, registerAccount, sendOTP, verifyOTP } from "./actions";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
-import { SendOTPRequest, VerifyOTPRequest } from "@/types/otp.types";
-import { APIError } from "@/types";
+import { SendOTPRequest } from "@/types/otp.types";
 import { useState } from "react";
+import { decodeUserToken } from "@/lib/utils";
+import { useAuthStore } from "@/store/auth-store";
 
 const loginSchema = z.object({
   email: z.coerce.string().email({ message: "Invalid email provided" }),
@@ -16,6 +17,9 @@ const loginSchema = z.object({
 });
 
 export const useLogin = () => {
+  const { toast } = useToast();
+  const router = useRouter();
+  const { setToken, setUser } = useAuthStore();
   const loginForm = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -24,8 +28,25 @@ export const useLogin = () => {
     },
   });
 
-  const submitLoginDetails = (values: z.infer<typeof loginSchema>) => {
-    console.log(values);
+  const submitLoginDetails = async (values: z.infer<typeof loginSchema>) => {
+    const { error, response } = await loginAccount(values);
+    if (error) {
+      toast({
+        title: error?.error,
+        description: error?.error_type,
+        variant: "destructive",
+      });
+    }
+    if (response?.isSuccess) {
+      toast({
+        title: "Login successful",
+        description: "Login successful",
+        variant: "default",
+      });
+      const user = decodeUserToken(response.token);
+      useAuthStore.setState({ user });
+      router.push("/");
+    }
   };
 
   return { loginForm, submitLoginDetails };

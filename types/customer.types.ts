@@ -23,6 +23,11 @@ export type RegisterCustomerRequest = {
   password?: string | undefined;
 };
 
+export type LoginCustomerRequest = {
+  email: string;
+  password: string;
+}
+
 export type Search = {
   key: "firstName" | "lastName" | "email" | "createdAt" | "isVerified";
   value: number | string | boolean;

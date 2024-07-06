@@ -33,14 +33,12 @@ export const useLogin = () => {
     if (error) {
       toast({
         title: error?.error,
-        description: error?.error_type,
         variant: "destructive",
       });
     }
     if (response?.isSuccess) {
       toast({
         title: "Login successful",
-        description: "Login successful",
         variant: "default",
       });
       const user = decodeUserToken(response.token);
@@ -133,7 +131,6 @@ export const useRegister = () => {
     const { error, response } = await registerAccount(formData);
     toast({
       title: error?.error,
-      description: error?.error_type,
       variant: "destructive",
     });
     if (response?.isSuccess) {
@@ -156,15 +153,13 @@ export const useSendAndVerifyOTP = () => {
     if (error) {
       toast({
         title: error?.error,
-        description: error?.error_type,
         variant: "destructive",
       });
     }
     if (response?.isSuccess) {
       otp = response.otpDetails.otp;
       toast({
-        title: "OTP sent",
-        description: "OTP sent to your email",
+        title: "OTP sent to your email",
         variant: "default",
       });
     }
@@ -180,14 +175,12 @@ export const useSendAndVerifyOTP = () => {
       otpError = error;
       toast({
         title: error?.error,
-        description: error?.error_type,
         variant: "destructive",
       });
     }
     if (response?.isSuccess) {
       toast({
-        title: "OTP verified",
-        description: "OTP verified successfully",
+        title: "OTP verified successfully",
         variant: "default",
       });
       router.push("/auth/login");

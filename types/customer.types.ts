@@ -56,6 +56,7 @@ export type UpdateCustomerRequest = {
   lastName?: string;
   isVerified?: boolean;
   zip?: string;
+  hasSetPasswordForAccount?: boolean;
   phoneNo?: string;
   address?: string;
   email: string;

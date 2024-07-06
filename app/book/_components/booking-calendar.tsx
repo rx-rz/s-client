@@ -16,7 +16,7 @@ export const BookingCalendar = ({ range, setRange, handleDayClick }: Props) => {
       selected={range}
       onDayClick={handleDayClick}
       onSelect={setRange}
-      disabled={{ before: new Date(date.setHours(date.getHours() + 1)) }}
+      disabled={{ before: new Date(date.setDate(date.getDate() + 1)) }}
     />
   );
 };

@@ -3,8 +3,17 @@ import { registerSchema } from "./form";
 import { api } from "@/lib/axios";
 import { createRoute } from "@/lib";
 import { APIError } from "@/lib/handle-api-errors";
-import { LoginCustomerRequest, LoginCustomerResponse, RegisterCustomerResponse } from "@/types/customer.types";
-import { SendOTPRequest, SendOTPResponse, VerifyOTPRequest, VerifyOTPResponse } from "@/types/otp.types";
+import {
+  LoginCustomerRequest,
+  LoginCustomerResponse,
+  RegisterCustomerResponse,
+} from "@/types/customer.types";
+import {
+  SendOTPRequest,
+  SendOTPResponse,
+  VerifyOTPRequest,
+  VerifyOTPResponse,
+} from "@/types/otp.types";
 
 export const registerAccount = async (
   values: Omit<z.infer<typeof registerSchema>, "confirmPassword">
@@ -27,9 +36,7 @@ export const registerAccount = async (
   return { error, response };
 };
 
-
-
-export const sendOTP = async (values: SendOTPRequest)=> {
+export const sendOTP = async (values: SendOTPRequest) => {
   let error;
   let response: SendOTPResponse | undefined;
   try {

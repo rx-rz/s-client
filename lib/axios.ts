@@ -15,6 +15,7 @@ api.interceptors.response.use(
   },
   (error) => {
     let apiError;
+    console.log(error)
     if (axios.isAxiosError(error)) {
       apiError = new APIError(
         Number(error.response?.status.toString() || ""),

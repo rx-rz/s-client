@@ -8,7 +8,7 @@ import { useSearchParams } from "next/navigation";
 
 const BookingPage = () => {
   const [range, setRange] = useState<DateRange | undefined>({
-    from: new Date(),
+    from: new Date(new Date().setDate(new Date().getDate() + 1)),
   });
   const [showAvailableRooms, setShowAvailableRooms] = useState(false);
   const searchParams = useSearchParams();

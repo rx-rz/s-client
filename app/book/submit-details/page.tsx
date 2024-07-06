@@ -27,7 +27,7 @@ const SubmitBookingDetailsPage = () => {
     startDate: searchParams.get("startDate") || "",
     endDate: searchParams.get("endDate") || "",
   });
-  const { form, submitDetails, createBookingLoading, registerCustomerLoading } =
+  const { form, submitBookingDetails, submitBookingDetailsLoading } =
     useMakeBooking({
       amount: Number(bookedRoom?.price) * totalNoOfDays,
     });
@@ -67,7 +67,7 @@ const SubmitBookingDetailsPage = () => {
           <h3 className="text-2xl font-medium">Booking Details</h3>
           <Form {...form}>
             <form
-              onSubmit={form.handleSubmit(submitDetails)}
+              onSubmit={form.handleSubmit(submitBookingDetails)}
               className="py-10 mx-auto font-satoshi"
             >
               <div className="flex gap-8">
@@ -168,11 +168,7 @@ const SubmitBookingDetailsPage = () => {
                 </div>
               </Alert>
               <Button className="mt-8 w-full p-1" type="submit">
-                {createBookingLoading || registerCustomerLoading ? (
-                  <Spinner />
-                ) : (
-                  "Make booking"
-                )}
+                {submitBookingDetailsLoading ? <Spinner /> : "Make booking"}
               </Button>
             </form>
           </Form>

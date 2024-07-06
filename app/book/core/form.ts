@@ -1,10 +1,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { handleBookingFlow } from "./api";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { registerAccountForBooking, createBooking } from "./actions";
+import { useToast } from "@/components/ui/use-toast";
+import { useState } from "react";
 
-const customerDetailsSchema = z.object({
+export const customerDetailsSchema = z.object({
   firstName: z
     .string({
       required_error: "First name is required",
@@ -29,17 +31,11 @@ type Props = {
   amount: number;
 };
 export const useMakeBooking = ({ amount }: Props) => {
-  const {
-    registerCustomer,
-    createBooking,
-    createBookingError,
-    registerCustomerError,
-    createBookingLoading,
-    registerCustomerLoading,
-    createBookingResponse,
-    registerCustomerResponse,
-  } = handleBookingFlow();
   const searchParams = useSearchParams();
+  const { toast } = useToast();
+  const router = useRouter();
+  const [submitBookingDetailsLoading, setSubmitBookingDetailsLoading] =
+    useState(false);
   const form = useForm<z.infer<typeof customerDetailsSchema>>({
     resolver: zodResolver(customerDetailsSchema),
     defaultValues: {
@@ -52,33 +48,47 @@ export const useMakeBooking = ({ amount }: Props) => {
     },
   });
 
-  const submitDetails = async (
+  const submitBookingDetails = async (
     values: z.infer<typeof customerDetailsSchema>
   ) => {
-    localStorage.setItem("email-for-password-setting", values.email);
-    const { isSuccess } = await registerCustomer({
-      ...values,
-      registrationIsOnTheBookingPage: true,
-    });
-    if (isSuccess) {
-      await createBooking({
-        customerEmail: "akhilol-log",
+    setSubmitBookingDetailsLoading(true);
+    const { error, response } = await registerAccountForBooking(values);
+    if (error) {
+      setSubmitBookingDetailsLoading(false);
+      toast({
+        title: error?.error,
+        variant: "destructive",
+      });
+    }
+    if (response?.isSuccess) {
+      const { error, response } = await createBooking({
+        customerEmail: values.email,
         startDate: searchParams.get("startDate") || "",
         endDate: searchParams.get("endDate") || "",
         amount: amount.toString(),
-        roomNo: Number(searchParams.get("roomNo")),
+        roomNo: Number(searchParams.get("roomNo")) || 0,
       });
+      if (error) {
+        setSubmitBookingDetailsLoading(false);
+        toast({
+          title: error?.error,
+          variant: "destructive",
+        });
+      }
+      if (response?.isSuccess) {
+        toast({
+          title: "Booking made. Please proceed to payment.",
+          variant: "default",
+        });
+        router.push(response.paymentUrl);
+      }
     }
+    setSubmitBookingDetailsLoading(false);
   };
   return {
     form,
-    submitDetails,
-    createBookingError,
-    createBookingLoading,
-    createBookingResponse,
-    registerCustomerError,
-    registerCustomerLoading,
-    registerCustomerResponse,
+    submitBookingDetails,
+    submitBookingDetailsLoading,
   };
 };
 

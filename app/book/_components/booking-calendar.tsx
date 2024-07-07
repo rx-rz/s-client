@@ -1,5 +1,5 @@
 import { Calendar } from "@/components/ui/calendar";
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { DateRange } from "react-day-picker";
 type Props = {
   range: DateRange | undefined;

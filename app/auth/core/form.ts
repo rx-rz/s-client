@@ -42,7 +42,8 @@ export const useLogin = () => {
         variant: "default",
       });
       const user = decodeUserToken(response.token);
-      useAuthStore.setState({ user });
+      setToken(response.token);
+      setUser(user);
       router.push("/");
     }
   };
@@ -129,10 +130,12 @@ export const useRegister = () => {
   ) => {
     const { confirmPassword, ...formData } = values;
     const { error, response } = await registerAccount(formData);
-    toast({
-      title: error?.error,
-      variant: "destructive",
-    });
+    if (error) {
+      toast({
+        title: error?.error,
+        variant: "destructive",
+      });
+    }
     if (response?.isSuccess) {
       sessionStorage.setItem("email-for-otp", values.email);
       router.push("/auth/verify-otp");

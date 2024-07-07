@@ -21,7 +21,4 @@ export function decodeUserToken(token: string) {
   return userToken as User;
 }
 
-export function throwError(){
-  
 
-}

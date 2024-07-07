@@ -8,11 +8,6 @@ import {
 import { customerDetailsSchema } from "./form";
 import { z } from "zod";
 import { RegisterCustomerResponse } from "@/types/customer.types";
-import {
-  CreatePaymentRequest,
-  CreatePaymentResponse,
-} from "@/types/payment.types";
-
 export const createBooking = async (values: CreateBookingRequest) => {
   let error;
   let response: CreateBookingResponse | undefined;

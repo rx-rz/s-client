@@ -1,13 +1,14 @@
 import axios from "axios";
 import { APIError } from "./handle-api-errors";
 export const api = axios.create({
+  withCredentials: true,
   baseURL:
     typeof window === "undefined"
       ? process.env.PUBLIC_URL
       : process.env.NEXT_PUBLIC_URL,
-  headers: {
-    Authorization: `Bearer`,
-  },
+});
+api.interceptors.request.use((request) => {
+  return request;
 });
 api.interceptors.response.use(
   (resp) => {

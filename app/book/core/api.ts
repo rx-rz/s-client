@@ -1,21 +1,10 @@
 import { createRoute } from "@/lib";
 import { api } from "@/lib/axios";
-import useSWRMutation from "swr/mutation";
-
-import {
-  RegisterCustomerRequest,
-  RegisterCustomerResponse,
-} from "@/types/customer.types";
 import {
   GetAvailableRoomsResponse,
   GetRoomDetailsResponse,
 } from "@/types/room.types";
 import useSWR from "swr";
-import {
-  CreateBookingRequest,
-  CreateBookingResponse,
-} from "@/types/booking.types";
-import { useRouter } from "next/navigation";
 
 export const getAvailableRooms = () => {
   const fetcher = (url: string): Promise<GetAvailableRoomsResponse> => {
@@ -50,6 +39,4 @@ export const getRoomDetails = (roomNo: number | string | null) => {
   return { data, roomDetailsIsLoading };
 };
 
-export const handleBookingFlow = () => {
-  
-};
+export const handleBookingFlow = () => {};

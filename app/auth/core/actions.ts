@@ -3,7 +3,6 @@ import { registerSchema } from "./form";
 import { api } from "@/lib/axios";
 import { createRoute } from "@/lib";
 import { APIError } from "@/lib/handle-api-errors";
-import Cookies from "js-cookie";
 import {
   LoginCustomerRequest,
   LoginCustomerResponse,
@@ -24,8 +23,8 @@ export const registerAccount = async (
   try {
     response = await api.post(
       createRoute({
-        prefix: "customers",
-        route: "/registerCustomer",
+        prefix: "admin",
+        route: "/registerAdmin",
       }),
       values
     );
@@ -93,6 +92,4 @@ export const loginAccount = async (values: LoginCustomerRequest) => {
   }
   return { error, response };
 };
-export const logoutAccount = () => {
-  return Cookies.remove("token");
-};
+

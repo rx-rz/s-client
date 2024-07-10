@@ -10,7 +10,6 @@ export const getAvailableRooms = () => {
   const fetcher = (url: string): Promise<GetAvailableRoomsResponse> => {
     return api.get(url);
   };
-
   const { data, isLoading: availableRoomsIsLoading } = useSWR(
     createRoute({
       prefix: "rooms",
@@ -18,7 +17,6 @@ export const getAvailableRooms = () => {
     }),
     fetcher
   );
-
   return {
     data,
     availableRoomsIsLoading,

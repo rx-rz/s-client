@@ -34,6 +34,7 @@ export const useLogin = () => {
       toast({
         title: error?.error,
         variant: "destructive",
+
       });
     }
     if (response?.isSuccess) {
@@ -43,7 +44,9 @@ export const useLogin = () => {
       });
       const user = decodeUserToken(response.token);
       setToken(response.token);
-      setUser(user);
+      if (user){
+        setUser({user});
+      }
       router.push("/");
     }
   };
@@ -84,21 +87,17 @@ export const registerSchema = z
     firstName: z
       .string({
         required_error: "First name is required",
-        invalid_type_error: "First name can only be a string",
       })
       .max(30, { message: "First name should be a maximum of 30 characters." }),
     lastName: z
       .string({
         required_error: "Last name is required",
-        invalid_type_error: "Last name can only be a string!",
       })
       .max(30, { message: "Last name should be a maximum of 30 characters." }),
     email: z.string({ required_error: "Email is required" }).email({
       message: "Email input is not a valid email. Please correct and try again",
     }),
-    zip: z.string({ required_error: "Zip code is required" }).max(10),
     phoneNo: z.string({ required_error: "Phone number is required" }).max(50),
-    address: z.string({ required_error: "Address is required" }),
     password: z.string().min(6, {
       message: "The password should be a minimum of six characters",
     }),
@@ -112,17 +111,16 @@ export const registerSchema = z
 export const useRegister = () => {
   const { toast } = useToast();
   const router = useRouter();
+  
   const registerForm = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      address: "",
       confirmPassword: "",
       email: "",
       firstName: "",
       lastName: "",
       password: "",
       phoneNo: "",
-      zip: "",
     },
   });
   const submitRegistrationDetails = async (

@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useRouter, useSearchParams } from "next/navigation";
-import { registerAccountForBooking, createBooking } from "./actions";
+import { createCustomerAccountForBooking, createBooking } from "./actions";
 import { useToast } from "@/components/ui/use-toast";
 import { useState } from "react";
 import { APIError } from "@/types";
@@ -61,7 +61,7 @@ export const useMakeBooking = ({ amount, paymentCallbackUrl }: Props) => {
     };
 
     const { error: regError, response: regResponse } =
-      await registerAccountForBooking(values);
+      await createCustomerAccountForBooking(values);
     if (regError) return handleError(regError);
 
     if (regResponse?.isSuccess) {

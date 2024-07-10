@@ -11,7 +11,7 @@ export const adminRoutes = {
 } as const;
 
 export const customerRoutes = {
-  register_customer: "/registerCustomer",
+  create_customer: "/createCustomer",
   login_customer: "/loginCustomer",
   list_customers: "/listCustomers",
   delete_customer: "/deleteCustomer",

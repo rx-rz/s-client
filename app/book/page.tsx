@@ -5,7 +5,6 @@ import { DateRange } from "react-day-picker";
 import { BookingCalendar } from "./_components/booking-calendar";
 import { AvailableRooms } from "./_components/available-rooms";
 import { useSearchParams } from "next/navigation";
-import Cookies from "js-cookie"
 const BookingPage = () => {
   const [range, setRange] = useState<DateRange | undefined>({
     from: new Date(new Date().setDate(new Date().getDate() + 1)),
@@ -29,7 +28,9 @@ const BookingPage = () => {
             <h2 className="text-5xl mb-4 font-medium">
               {roomTypeSelected ? (
                 <span>
-                  A beautiful <span className="text-accent_one">{roomTypeSelected}</span> awaits you!
+                  A beautiful{" "}
+                  <span className="text-accent_one">{roomTypeSelected}</span>{" "}
+                  awaits you!
                 </span>
               ) : (
                 "Our beautiful rooms are waiting for you!"
@@ -70,7 +71,7 @@ const BookingPage = () => {
               Room(s) available between {range?.from?.toDateString()} and{" "}
               {range?.to?.toDateString()}
             </h2>
-            <AvailableRooms range={range} roomTypeSelected={roomTypeSelected}/>
+            <AvailableRooms range={range} roomTypeSelected={roomTypeSelected} />
           </div>
         ) : (
           <></>

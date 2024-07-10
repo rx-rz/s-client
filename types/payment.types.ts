@@ -19,7 +19,7 @@ export type CreatePaymentResponse = {
   isSuccess: boolean;
 };
 
-export type PaymentDetailsRequest = {
+export type GetPaymentDetailsResponse = {
   paymentDetails: {
     bookingId: string;
     status: "pending" | "confirmed" | "failed";

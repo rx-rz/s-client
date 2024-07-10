@@ -1,8 +1,6 @@
 import { RoomtypesList } from "@/components/roomtypes-list";
 import Image from "next/image";
 import Link from "next/link";
-
-import Cookies from "js-cookie"
 export default function Home() {
   return (
     <main className="">

@@ -1,8 +1,8 @@
 "use client";
 import { manageSearchParams } from "@/lib/search-params";
 import Image from "next/image";
-import { getAvailableRooms, handleBookingFlow } from "../core/api";
-import { CalendarIcon, InfoCircledIcon } from "@radix-ui/react-icons";
+import { getAvailableRooms } from "../core/api";
+import { CalendarIcon } from "@radix-ui/react-icons";
 import {
   Form,
   FormControl,
@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/form";
 import { getNoOfDays, useMakeBooking } from "../core/form";
 import { Input } from "@/components/ui/input";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 
@@ -32,6 +31,7 @@ const SubmitBookingDetailsPage = () => {
       amount: Number(bookedRoom?.price) * totalNoOfDays,
       paymentCallbackUrl: "http://localhost:3000",
     });
+    
   return (
     <div>
       <p className="text-4xl font-medium my-8">You are almost done!</p>
@@ -155,19 +155,6 @@ const SubmitBookingDetailsPage = () => {
                   )}
                 />
               </div>
-              <Alert className="mt-3 py-6 bg-slate-50">
-                <div className="ml-3 mt-2">
-                  <InfoCircledIcon className="h-6 w-6 mb-2" />
-                  <AlertTitle className="mb-2">Account creation </AlertTitle>
-                  <AlertDescription>
-                    The details you provide will automatically register you as a
-                    customer in our database. You can come back to provide a
-                    password so that you can have access to a more personalised
-                    UI for handling bookings and every other activity you
-                    partake in during your stay.
-                  </AlertDescription>
-                </div>
-              </Alert>
               <Button className="mt-8 w-full p-1" type="submit">
                 {submitBookingDetailsLoading ? <Spinner /> : "Make booking"}
               </Button>

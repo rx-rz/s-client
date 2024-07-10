@@ -12,6 +12,9 @@ api.interceptors.request.use((request) => {
 });
 api.interceptors.response.use(
   (resp) => {
+    if(resp.status === 302){
+      
+    }
     return resp.data;
   },
   (error) => {

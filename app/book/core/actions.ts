@@ -28,7 +28,7 @@ export const createBooking = async (values: CreateBookingRequest) => {
   return { error, response };
 };
 
-export const registerAccountForBooking = async (
+export const createCustomerAccountForBooking = async (
   values: z.infer<typeof customerDetailsSchema>
 ) => {
   let error;
@@ -37,9 +37,9 @@ export const registerAccountForBooking = async (
     response = await api.post(
       createRoute({
         prefix: "customers",
-        route: "/registerCustomer",
+        route: "/createCustomer",
       }),
-      { ...values, registrationIsOnTheBookingPage: true }
+      values
     );
   } catch (err) {
     if (err instanceof APIError) {

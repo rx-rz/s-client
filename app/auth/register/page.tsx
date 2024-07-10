@@ -107,34 +107,6 @@ const RegisterPage = () => {
               )}
             />
           </div>
-          <div className="flex gap-8">
-            <FormField
-              control={registerForm.control}
-              name="address"
-              render={({ field }) => (
-                <FormItem className="mb-4 w-full">
-                  <FormLabel>Address*</FormLabel>
-                  <FormControl className="">
-                    <Input placeholder="No 1, John Doe Street" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={registerForm.control}
-              name="zip"
-              render={({ field }) => (
-                <FormItem className="mb-4 w-full">
-                  <FormLabel>Zip Code *</FormLabel>
-                  <FormControl className="">
-                    <Input placeholder="011011" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
           <Button className="w-full mt-10" type="submit">
             Register
           </Button>

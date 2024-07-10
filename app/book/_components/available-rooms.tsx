@@ -9,7 +9,6 @@ type Props = {
 
 export const AvailableRooms = ({ range, roomTypeSelected }: Props) => {
   const { data } = getAvailableRooms();
-
   const availableRoomBasedOnSelectedRoomType =
     roomTypeSelected &&
     data?.availableRooms.find((room) => room.name === roomTypeSelected);
